@@ -11,6 +11,7 @@ Technologies used:
 - Django 4.0.2
 - Django rest framework 3.13.1
 - Requests 2.27.1
+- Database on sqlite3
 
 Configuration before first run:
 - 
