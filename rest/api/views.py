@@ -12,7 +12,7 @@ class MovieRestApi(APIView):
     def get(self, request):
         movies = Movie.objects.all()
         serializer = GetAllMoviesSerializer(movies, many=True)
-        return Response({'movies': serializer.data})
+        return Response(serializer.data)
 
     def post(self, request):
         serializer = CreateMovieSerializer(data=request.data)
@@ -32,7 +32,9 @@ class MovieRestApi(APIView):
                 serializer.update(movie, serializer.validated_data)
                 return Response({'message': 'Movie modified'},
                                 status=status.HTTP_200_OK)
-        except Director.DoesNotExist:
+            return Response({'message': 'Cant modify movie, wrong data'},
+                            status=status.HTTP_400_BAD_REQUEST)
+        except Movie.DoesNotExist:
             return Response({'message': 'Movie not found'},
                             status=status.HTTP_404_NOT_FOUND)
 
@@ -51,7 +53,7 @@ class DirectorRestApi(APIView):
     def get(self, request):
         directors = Director.objects.all()
         serializer = GetAllDirectorsSerializer(directors, many=True)
-        return Response({'directors': serializer.data})
+        return Response(serializer.data)
 
     def post(self, request):
         serializer = CreateDirectorSerializer(data=request.data)
@@ -71,6 +73,8 @@ class DirectorRestApi(APIView):
                 serializer.update(director, serializer.validated_data)
                 return Response({'message': 'Director modified'},
                                 status=status.HTTP_200_OK)
+            return Response({'message': 'Cant modify director, wrong data'},
+                            status=status.HTTP_400_BAD_REQUEST)
         except Director.DoesNotExist:
             return Response({'message': 'Director not found'},
                             status=status.HTTP_404_NOT_FOUND)
@@ -90,7 +94,7 @@ class ActorRestApi(APIView):
     def get(self, request):
         actors = Actor.objects.all()
         serializer = GetAllActorsSerializer(actors, many=True)
-        return Response({'actors': serializer.data})
+        return Response(serializer.data)
 
     def post(self, request):
         serializer = CreateActorSerializer(data=request.data)
@@ -110,6 +114,8 @@ class ActorRestApi(APIView):
                 serializer.update(actor, serializer.validated_data)
                 return Response({'message': 'Actor modified'},
                                 status=status.HTTP_200_OK)
+            return Response({'message': 'Cant modify actor, wrong data'},
+                            status=status.HTTP_400_BAD_REQUEST)
         except Actor.DoesNotExist:
             return Response({'message': 'Actor not found'},
                             status=status.HTTP_404_NOT_FOUND)
@@ -129,18 +135,18 @@ class SingleMovieRestApi(APIView):
     def get(self, request, id):
         movie = Movie.objects.filter(id=self.kwargs['id'])
         serializer = GetAllMoviesSerializer(movie, many=True)
-        return Response({'movie': serializer.data})
+        return Response(serializer.data)
 
 
 class SingleActorRestApi(APIView):
     def get(self, request, id):
         actor = Actor.objects.filter(id=self.kwargs['id'])
         serializer = GetAllActorsSerializer(actor, many=True)
-        return Response({'actor': serializer.data})
+        return Response(serializer.data)
 
 
 class SingleDirectorRestApi(APIView):
     def get(self, request, id):
         director = Director.objects.filter(id=self.kwargs['id'])
         serializer = GetAllActorsSerializer(director, many=True)
-        return Response({'director': serializer.data})
+        return Response(serializer.data)

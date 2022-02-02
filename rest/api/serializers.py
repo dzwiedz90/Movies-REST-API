@@ -72,6 +72,7 @@ class GetAllMoviesSerializer(serializers.ModelSerializer):
         fields = ['id', 'movie_title', 'genre', 'director', 'released', 'cast']
 
 
+#TODO When creating/updating Movie actors and directors are not added (empty list is returned)
 class CreateMovieSerializer(serializers.ModelSerializer):
     director = GetAllDirectorsSerializer(read_only=True, many=True)
     cast = GetAllActorsSerializer(read_only=True, many=True)
